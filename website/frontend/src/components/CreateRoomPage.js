@@ -12,19 +12,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 function CreateRoomPage() {
     const [votesToSkip, setVotesToSkip] = useState(2);
-    const [guestCanPause, setGuestCanPause] = useState(true)
+    const [guestCanPause, setGuestCanPause] = useState(true);
     const navigate = useNavigate();
-
-   /*  constructor(props){
-        super(props);
-        this.state={
-            guestCanPause: true,
-            votesToSkip: this.defaultVotes
-        };
-        this.handleVotesChange=this.handleVotesChange.bind(this);
-        this.handleGuestCanPauseChange=this.handleGuestCanPauseChange.bind(this);
-        this.handleRoomButtonPressed=this.handleRoomButtonPressed.bind(this);
-    } */
 
     const handleVotesChange = e => {
         setVotesToSkip(e.target.value);
@@ -46,82 +35,83 @@ function CreateRoomPage() {
         fetch("/api/create", requestOptions)
             .then((response) => response.json())
             .then((data) => navigate(`/room/${data.code}`));
-    }
+    };
 
 
     return(
-    <Grid container spacing={1}>
-        <Grid item xs={12} align="center">
-            <Typography component="h4" variant="h4">
-                This is the Create Room Page
-            </Typography>
-        </Grid>
-        <Grid item xs={12} align="center">
-            <FormControl component="fieldset">
-                <FormHelperText>
-                    <div align="center">
-                        Guest Control of Playback State
-                    </div>
-                </FormHelperText>
-                <RadioGroup 
-                    row 
-                    defaultValue="true" 
-                    onChange={handleGuestCanPauseChange}
+        <Grid container spacing={1}>
+            <Grid item xs={12} align="center">
+                <Typography component="h4" variant="h4">
+                    This is the Create Room Page
+                </Typography>
+            </Grid>
+            <Grid item xs={12} align="center">
+                <FormControl component="fieldset">
+                    <FormHelperText>
+                        <div align="center">
+                            Guest Control of Playback State
+                        </div>
+                    </FormHelperText>
+                    <RadioGroup 
+                        row 
+                        defaultValue="true" 
+                        onChange={handleGuestCanPauseChange}
+                    >
+                        <FormControlLabel 
+                            value="true"
+                            control={<Radio color="primary"/>}
+                            label="Play/Pause"
+                            labelPlacement="bottom"
+                        />
+                        <FormControlLabel 
+                            value="false"
+                            control={<Radio color="secondary"/>}
+                            label="No Control"
+                            labelPlacement="bottom"
+                        />
+                    </RadioGroup>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} align="center">
+                <FormControl>
+                    <TextField 
+                        required={true} 
+                        type="number" 
+                        onChange={handleVotesChange}
+                        defaultValue={votesToSkip} 
+                        inputProps={{
+                            min:1,
+                            style:{textAlign:"center"}
+                        }}
+                    />
+                    <FormHelperText>
+                        <div align="center">
+                            Votes Required To Skip Song
+                        </div>
+                    </FormHelperText>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} align="center">
+                <Button 
+                    color="primary" 
+                    variant="contained" 
+                    onClick={handleRoomButtonPressed}
                 >
-                    <FormControlLabel 
-                        value="true"
-                        control={<Radio color="primary"/>}
-                        label="Play/Pause"
-                        labelPlacement="bottom"
-                    />
-                    <FormControlLabel 
-                        value="false"
-                        control={<Radio color="secondary"/>}
-                        label="No Control"
-                        labelPlacement="bottom"
-                    />
-                </RadioGroup>
-            </FormControl>
+                    Create Room
+                </Button>
+            </Grid>
+            <Grid item xs={12} align="center">
+                <Button 
+                    color="secondary" 
+                    variant="contained" 
+                    to="/" 
+                    component={Link}
+                >
+                    Back
+                </Button>
+            </Grid>
         </Grid>
-        <Grid item xs={12} align="center">
-            <FormControl>
-                <TextField 
-                    required={true} 
-                    type="number" 
-                    onChange={handleVotesChange}
-                    defaultValue={votesToSkip} 
-                    inputProps={{
-                        min:1,
-                        style:{textAlign:"center"}
-                    }}
-                />
-                <FormHelperText>
-                    <div align="center">
-                        Votes Required To Skip Song
-                    </div>
-                </FormHelperText>
-            </FormControl>
-        </Grid>
-        <Grid item xs={12} align="center">
-            <Button 
-                color="primary" 
-                variant="contained" 
-                onClick={handleRoomButtonPressed}
-            >
-                Create Room
-            </Button>
-        </Grid>
-        <Grid item xs={12} align="center">
-            <Button 
-                color="secondary" 
-                variant="contained" 
-                to="/" 
-                component={Link}
-            >
-                Back
-            </Button>
-        </Grid>
-    </Grid>);
-};
+    );
+}
 
 export default CreateRoomPage;
