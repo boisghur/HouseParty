@@ -1,29 +1,79 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from "@material-ui/core/FormControl";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import React, { useState } from "react";
+import { Button, Grid, Typography, TextField } from '@material-ui/core';
+import { Link, useNavigate } from "react-router-dom";
 
+function RoomJoinPage() {
+    const [roomCode, setRoomCode] = useState("");
+    const [error, setError] = useState();
+    const navigate = useNavigate();
 
+    const handleRoomCodeChange = e => {
+        setRoomCode(e.target.value);
+    };
 
-export default class RoomJoinPage extends Component{
-    defaultVotes = 2;
+    const joinButtonPressed = e => {
+        const requestOptions = {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+            },
+            body:JSON.stringify({
+                code:roomCode
+            })
+        };
+        fetch("/api/join-room", requestOptions)
+            .then((response) => {
+                if (response.ok) {
+                    navigate(`/room/${roomCode}`);
+                }else{
+                    setError("Room Not Found!");
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+    };
 
-    constructor(props){
-        super(props);
-    }
-
-    render() {
-        return (
-        <Grid container spacing={1}>
-            <Grid item xs={6} align="center"></Grid>
+    return (
+    <Grid container spacing={1}>
+        <Grid item xs={12} align="center">
+            <Typography variant="h4" component="h4">
+                Join a Room
+            </Typography>
         </Grid>
-        );
-    }
+        <Grid item xs={12} align="center">
+            <TextField 
+                error={error}
+                label="Code"
+                placeholder="Enter Room Code"
+                value={roomCode}
+                helperText={error}
+                variant="outlined"
+                onChange={handleRoomCodeChange}
+            />
+        </Grid>
+        <Grid item xs={12} align="center">
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={joinButtonPressed}
+            >
+                Join
+            </Button>
+        </Grid>
+        <Grid item xs={12} align="center">
+        <Button
+                variant="outlined"
+                color="Secondary"
+                size="small"
+                to="/"
+                component={Link}
+            >
+                Back
+            </Button>
+        </Grid>
+    </Grid>
+    );
 }
+
+export default RoomJoinPage;
