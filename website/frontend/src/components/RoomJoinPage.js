@@ -3,12 +3,16 @@ import { Button, Grid, Typography, TextField } from '@material-ui/core';
 import { Link, useNavigate } from "react-router-dom";
 
 function RoomJoinPage() {
-    const [roomCode, setRoomCode] = useState("");
+    const [roomCode, setRoomCode] = useState();
     const [error, setError] = useState();
     const navigate = useNavigate();
 
     const handleRoomCodeChange = e => {
-        setRoomCode(e.target.value);
+        if (e.target.value.length>0){
+           setRoomCode(e.target.value);
+        }else{
+            setRoomCode(null);
+        }
     };
 
     const joinButtonPressed = e => {
@@ -25,6 +29,8 @@ function RoomJoinPage() {
             .then((response) => {
                 if (response.ok) {
                     navigate(`/room/${roomCode}`);
+                }else if (response.status === 400){
+                    setError("Enter Room Code")
                 }else{
                     setError("Room Not Found!");
                 }
