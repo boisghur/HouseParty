@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CreateRoomPage from "./CreateRoomPage";
+
 function Room() {
   const [votesToSkip, setVotesToSkip] = useState(2);
   const [guestCanPause, setGuestCanPause] = useState(true);
@@ -22,6 +23,11 @@ function Room() {
       });
   }, [roomCode]);
 
+  const updateRoomDetails = (newGuestCanPause, newVotesToSkip) => {
+    setGuestCanPause(newGuestCanPause);
+    setVotesToSkip(newVotesToSkip);
+  };
+
   const LeaveRoomButton = () => {
     const requestOptions = {
       method: "DELETE",
@@ -39,17 +45,19 @@ function Room() {
         <Grid item xs={12} align="center">
           <CreateRoomPage
             update={true}
-            votesToSkip={votesToSkip}
-            guestCanPause={guestCanPause}
             roomCode={roomCode}
-            updateCallback={null}
+            guestCanPause={guestCanPause}
+            votesToSkip={votesToSkip}
+            onRoomUpdated={updateRoomDetails}
           />
         </Grid>
         <Grid item xs={12} align="center">
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => setShowSettings(false)}
+            onClick={() => {
+              setShowSettings(false);
+            }}
           >
             Close
           </Button>

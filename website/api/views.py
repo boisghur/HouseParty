@@ -107,7 +107,7 @@ class UpdateRoom(APIView):
             guest_can_pause = serializer.data.get('guest_can_pause')
             votes_to_skip = serializer.data.get('votes_to_skip')
             code = serializer.data.get('code')
-            queryset = Room.objects.filer(code=code)
+            queryset = Room.objects.filter(code=code)
             if not queryset.exists():
                 return Response({'Room Not Found': 'Invalid Room Code.'}, status=status.HTTP_404_NOT_FOUND)
             room = queryset[0]
