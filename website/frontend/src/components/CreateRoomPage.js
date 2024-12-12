@@ -110,7 +110,6 @@ function CreateRoomPage(props) {
           ) : (
             <Alert severity="error">{errorMsg}</Alert>
           )}
-          {errorMsg}
         </Collapse>
       </Grid>
       <Grid item xs={12} align="center">

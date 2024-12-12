@@ -4,12 +4,15 @@ import { Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CreateRoomPage from "./CreateRoomPage";
+import MusicPlayer from "./MusicPlayer";
 
 function Room() {
   const [votesToSkip, setVotesToSkip] = useState(2);
   const [guestCanPause, setGuestCanPause] = useState(true);
   const [isHost, setIsHost] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [spotifyAuthenticated, setSpotifyAuthenticated] = useState(false);
+  const [song, setSong] = useState({});
   const { roomCode } = useParams();
   const navigate = useNavigate();
 
@@ -20,8 +23,33 @@ function Room() {
         setVotesToSkip(data.votes_to_skip);
         setGuestCanPause(data.guest_can_pause);
         setIsHost(data.is_host);
+        if (data.is_host) {
+          console.log("here");
+          authenticateSpotify();
+        }
+        getCurrentSong();
       });
   }, [roomCode]);
+
+  useEffect(() => {
+    let interval = setInterval(getCurrentSong, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  function authenticateSpotify() {
+    fetch("/spotify/is-authenticated")
+      .then((response) => response.json())
+      .then((data) => {
+        setSpotifyAuthenticated(data.status);
+        if (!data.status) {
+          fetch("/spotify/get-auth-url")
+            .then((response) => response.json())
+            .then((data) => {
+              window.location.replace(data.url);
+            });
+        }
+      });
+  }
 
   const updateRoomDetails = (newGuestCanPause, newVotesToSkip) => {
     setGuestCanPause(newGuestCanPause);
@@ -38,6 +66,18 @@ function Room() {
       .then(() => navigate("/join"))
       .catch((error) => console.error("Error:", error));
   };
+
+  function getCurrentSong() {
+    fetch("/spotify/current-song")
+      .then((response) => {
+        if (!response.ok) {
+          return {};
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => setSong(data));
+  }
 
   function renderSettings() {
     return (
@@ -90,6 +130,7 @@ function Room() {
           {roomCode}
         </Typography>
       </Grid>
+      <MusicPlayer song={song} />
       <Grid item xs={12} align="center">
         <Typography component="h6" variant="h6">
           {" "}
