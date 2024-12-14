@@ -13,6 +13,22 @@ import PauseIcon from "@material-ui/icons/Pause";
 function MusicPlayer(props) {
   const songProgress = (props.song.time / props.song.duration) * 100;
 
+  function pauseSong() {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch("/spotify/pause", requestOptions);
+  }
+
+  function playSong() {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch("/spotify/play", requestOptions);
+  }
+
   return (
     <Card>
       <Grid container alignItems="center">
@@ -27,7 +43,11 @@ function MusicPlayer(props) {
             {props.song.artist}
           </Typography>
           <div>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                props.song.is_playing ? pauseSong() : playSong();
+              }}
+            >
               {props.song.is_playing ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
             <IconButton>
