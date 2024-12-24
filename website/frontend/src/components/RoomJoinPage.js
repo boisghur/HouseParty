@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, Typography, TextField } from "@material-ui/core";
+import { Button, Grid, Typography, TextField } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 function RoomJoinPage() {

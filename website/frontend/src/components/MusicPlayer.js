@@ -5,10 +5,10 @@ import {
   Card,
   IconButton,
   LinearProgress,
-} from "@material-ui/core";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import SkipNextIcon from "@material-ui/icons/SkipNext";
-import PauseIcon from "@material-ui/icons/Pause";
+} from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import PauseIcon from "@mui/icons-material/Pause";
 
 function MusicPlayer(props) {
   const songProgress = (props.song.time / props.song.duration) * 100;

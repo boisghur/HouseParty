@@ -6,7 +6,7 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
-import { Button, ButtonGroup, Typography, Grid } from "@material-ui/core";
+import { Button, ButtonGroup, Typography, Grid } from "@mui/material";
 import RoomJoinPage from "./RoomJoinPage";
 import CreateRoomPage from "./CreateRoomPage";
 import Room from "./Room";
