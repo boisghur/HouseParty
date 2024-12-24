@@ -1,3 +1,5 @@
-CLIENT_ID = "cb42d0df51ab48b2b9a9dde7b3817cd1"
-CLIENT_SECRET = "0a82b6ca78084f348a1cf1e59bebad62"
+import os
+
+CLIENT_ID = os.environ.get('CLIENT_ID')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 REDIRECT_URI = "https://houseparty.onrender.com/spotify/redirect"
