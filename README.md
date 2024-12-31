@@ -1,3 +1,6 @@
+### [https://houseparty.onrender.com](https://houseparty.onrender.com)
+- Site may take up to a minute to load up if it is in sleep state.
+
 ## HouseParty
 is a web app written in React and Django, integrating the spotify api to allow rooms to control a host's spotify playback by pausing, playing or voting to skip the current song.
 
